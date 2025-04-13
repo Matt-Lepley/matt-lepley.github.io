@@ -1,28 +1,42 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
 <h1>Dog Whistle</h1>
 
-<label for="frequencySlider">Frequency (Hz)</label>
-<br>
 <input type="range" min="8000" max="18000" value="8000" class="slider" id="frequencySlider">
-<span id="frequencyOutput">8000</span>
+
+<br>
+<h3>
+  Frequency (Hz)
+  <span id="frequencyOutput">8000</span>
+</h3>
 <br><br>
-<button id="toggleWhistleButton" class="startPlaying" onclick="toggleWhistle()">Toggle Play</button>
+<button id="toggleWhistleButton" class="startPlaying" onclick="toggleWhistle()">START</button>
 
 <style>
   body {
     margin: 0 auto;
     text-align: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #B0C4B1	;
   }
 
   #frequencySlider {
-    width: 250px;
+    width: 75vw;
+    max-width:500px;
   }
 
   #toggleWhistleButton {
-    width:150px;
-    height:150px;
+    margin-top: 50px;
+    width: 75vw;
+    height: 75vw;
+    max-width:500px;
+    max-height:500px;
     border-radius:50%;
     border:2px solid black;
-    font-size:16px;
+    font-size:32px;
+    font-weight: bold;
     cursor:pointer;
   }
   .startPlaying {
@@ -58,11 +72,13 @@
     if (playing) {
       stopWhistle();
       playing = false;
+      toggleWhistleButton.innerHTML = "START";
       toggleWhistleButton.classList.remove('stopPlaying');
       toggleWhistleButton.classList.add('startPlaying');
     } else {
       startWhistle();
       playing = true;
+      toggleWhistleButton.innerHTML = "STOP";
       toggleWhistleButton.classList.add('startPlaying');
       toggleWhistleButton.classList.add('stopPlaying');
     }
