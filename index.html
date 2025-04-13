@@ -1,0 +1,91 @@
+<h1>Dog Whistle</h1>
+
+<label for="frequencySlider">Frequency (Hz)</label>
+<br>
+<input type="range" min="8000" max="18000" value="8000" class="slider" id="frequencySlider">
+<span id="frequencyOutput">8000</span>
+<br><br>
+<button id="toggleWhistleButton" class="startPlaying" onclick="toggleWhistle()">Toggle Play</button>
+
+<style>
+  body {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #frequencySlider {
+    width: 250px;
+  }
+
+  #toggleWhistleButton {
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    border:2px solid black;
+    font-size:16px;
+    cursor:pointer;
+  }
+  .startPlaying {
+    background-color:lightgreen;
+  }
+  .stopPlaying {
+    background-color:coral;
+  }
+</style>
+
+<script>
+  ////////////////////////////////
+  // Slider logic
+  ////////////////////////////////
+  let slider = document.getElementById("frequencySlider");
+  let output = document.getElementById("frequencyOutput");
+  let toggleWhistleButton = document.getElementById("toggleWhistleButton");
+
+  output.innerHTML = slider.value;
+
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+
+  ////////////////////////////////
+  // Play/Stop logic
+  ////////////////////////////////
+  let context;
+  let oscillator;
+  let playing = false;
+
+  function toggleWhistle() {
+    if (playing) {
+      stopWhistle();
+      playing = false;
+      toggleWhistleButton.classList.remove('stopPlaying');
+      toggleWhistleButton.classList.add('startPlaying');
+    } else {
+      startWhistle();
+      playing = true;
+      toggleWhistleButton.classList.add('startPlaying');
+      toggleWhistleButton.classList.add('stopPlaying');
+    }
+  }
+
+  function startWhistle() {
+    const frequency = document.getElementById('frequencySlider').value;
+
+    context = new (window.AudioContext || window.webkitAudioContext)();
+    oscillator = context.createOscillator();
+    oscillator.type = 'sine'; // You could try 'square', 'triangle', etc.
+    oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+    oscillator.connect(context.destination);
+    oscillator.start();
+  }
+
+  function stopWhistle() {
+    if (oscillator) {
+      oscillator.stop();
+      oscillator.disconnect();
+    }
+    if (context) {
+      context.close();
+    }
+  }
+</script>
